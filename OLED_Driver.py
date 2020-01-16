@@ -205,7 +205,11 @@ def Display_Image(Image):
     if(Image == None):
         return
     Set_Coordinate(0,0)
-    buffer1 = Image.load()
+    print("image", Image)
+    try:
+        buffer1 = Image.load()
+    except OSError as err:
+        print(err)
     for j in range(0, 63):
         for i in range(0, 253):
             color_fill_byte[i*2] = ((buffer1[i,j][0] & 0xF8)|(buffer1[i,j][1] >> 5))

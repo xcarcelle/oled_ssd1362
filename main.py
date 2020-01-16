@@ -14,11 +14,11 @@ from PIL import ImageColor
 #-------------Test Display Functions---------------#
 
 def Test_Text():
-    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "WHITE")
+    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype("FreeMonoBold.ttf", 12, encoding="unic")
-    # font = ImageFont.truetype('cambriab.ttf',24)
-    draw.text((0, 0), 'IGREK', fill = "WHITE", font = font)
+    font = ImageFont.truetype("FreeMonoBold.ttf", 10, encoding="unic")
+    # font = ImageFont.truetype('cambriab.ttf', 12)
+    draw.text((0, 0), 'Igrek', fill = "WHITE", font = font)
     OLED.Display_Image(image)
 
 
@@ -127,12 +127,13 @@ def Test_Triangles():
 
 
 def Display_Picture(File_Name):
-    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "WHITE")
+    # initial image
+    image = Image.new("RGBA", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
-    image = Image.open(File_Name)
-    # imageSize = imageClip.size
-    # image.alpha_composite(imageClip, (0, 0))
-    imageRGB = image.convert('RGB')
+    draw.rectangle([(1,1), (OLED.SSD1351_WIDTH - 2,OLED.SSD1351_WIDTH - 2)], 'black', 'black')
+    # adding the picture
+    img = Image.open(File_Name)
+    image.alpha_composite(img, (0, 0))
     OLED.Display_Image(image)
 
 #----------------------MAIN-------------------------#
@@ -146,8 +147,8 @@ try:
     
         while True:
             # OLED.Clear_Screen()
-            OLED.Fill_Color(OLED.BLACK)
-            OLED.Delay(500)
+            # OLED.Fill_Color(OLED.BLACK)
+            # OLED.Delay(50)
             # OLED.Write_text(0xFFFF)
             # OLED.Delay(500)
             # Test_Circles()
@@ -164,9 +165,10 @@ try:
             # OLED.Draw_Pixel(20, 20)
             # for i in range(50, 200):
             #    OLED.Draw_Pixel(0, i)
+
             # OLED.Delay(500)
             # OLED.Display_off()
-            OLED.Delay(500)
+            OLED.Delay(1000)
 
         #-------------Draw Pictures------------#
         # OLED.Delay(8000)
