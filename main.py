@@ -14,27 +14,20 @@ from PIL import ImageColor
 #-------------Test Display Functions---------------#
 
 def Test_Text():
-    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
+    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "WHITE")
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('cambriab.ttf',24)
-    draw.text((0, 12), 'WaveShare', fill = "WHITE", font = font)
-    draw.text((0, 36), 'Electronic', fill = "BLACK",font = font)
+    font = ImageFont.truetype("FreeMonoBold.ttf", 12, encoding="unic")
+    # font = ImageFont.truetype('cambriab.ttf',24)
+    draw.text((0, 0), 'IGREK', fill = "WHITE", font = font)
     OLED.Display_Image(image)
 
 
 def Test_Pattern():
-    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
+    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "WHITE")
     draw = ImageDraw.Draw(image)
-    
-    draw.line([(0,204),(127,204)],fill = "BLACK",  width = 16)
-    sleep(2)
-    print("end of line")
-    draw.line([(0,104),(127,104)],fill = "BLACK",  width = 16)
-    sleep(2)
-    print("end of line 2")
+    draw.line([(0,204),(127,204)],fill = "WHITE",  width = 16)
+    draw.line([(0,104),(127,104)],fill = "WHITE",  width = 16)
     OLED.Display_Image(image)
-    #print("end of Display Image")
-    #sleep(5)
 
 
 def Test_Lines():
@@ -81,13 +74,13 @@ def Test_HV_Lines():
     image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "WHITE")
     draw = ImageDraw.Draw(image)
     
-    # for y in range(0, OLED.SSD1351_HEIGHT - 1, 5):
-    #     draw.line([(0, y), (OLED.SSD1351_WIDTH - 1, y)], fill = "WHITE", width = 1)
-    # # OLED.Display_Image(image)
-    # OLED.Delay(250)
-    # for x in range(0, OLED.SSD1351_WIDTH - 1, 5):
-    #     draw.line([(x, 0), (x, OLED.SSD1351_HEIGHT - 1)], fill = "WHITE", width = 1)
-    # # OLED.Display_Image(image)
+    for y in range(0, OLED.SSD1351_HEIGHT - 1, 5):
+        draw.line([(0, y), (OLED.SSD1351_WIDTH - 1, y)], fill = "WHITE", width = 1)
+    # OLED.Display_Image(image)
+    OLED.Delay(250)
+    for x in range(0, OLED.SSD1351_WIDTH - 1, 5):
+        draw.line([(x, 0), (x, OLED.SSD1351_HEIGHT - 1)], fill = "WHITE", width = 1)
+    OLED.Display_Image(image)
 
 
 
@@ -115,7 +108,6 @@ def Test_Circles():
     draw = ImageDraw.Draw(image)
 
     draw.ellipse([(0, 0), (OLED.SSD1351_WIDTH - 1, OLED.SSD1351_HEIGHT - 1)], fill = "WHITE", outline = "WHITE")
-    print("Circles after Display Image")
     OLED.Display_Image(image)
     OLED.Delay(3000)
     for r in range(0, int(OLED.SSD1351_WIDTH/2) + 4, 4):
@@ -135,7 +127,12 @@ def Test_Triangles():
 
 
 def Display_Picture(File_Name):
+    image = Image.new("RGB", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "WHITE")
+    draw = ImageDraw.Draw(image)
     image = Image.open(File_Name)
+    # imageSize = imageClip.size
+    # image.alpha_composite(imageClip, (0, 0))
+    imageRGB = image.convert('RGB')
     OLED.Display_Image(image)
 
 #----------------------MAIN-------------------------#
@@ -154,9 +151,14 @@ try:
             # OLED.Write_text(0xFFFF)
             # OLED.Delay(500)
             # Test_Circles()
-            Test_Lines()
+            # Test_Lines()
+            # Test_Rects()
+            # Test_FillRects()
+            # Test_Triangles()
             # Test_Text()
+            # Test_HV_Lines()
             # Test_Pattern()
+            Display_Picture("aux1.png")
             # OLED.Draw_FastVLine(20, 20, 100)
             # OLED.Draw_FastVLine(20, 20, 100)
             # OLED.Draw_Pixel(20, 20)

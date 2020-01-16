@@ -201,6 +201,18 @@ def Set_Address(column, row):
 
 #################################################
 
+def Display_Image(Image):
+    if(Image == None):
+        return
+    Set_Coordinate(0,0)
+    buffer1 = Image.load()
+    for j in range(0, 63):
+        for i in range(0, 253):
+            color_fill_byte[i*2] = ((buffer1[i,j][0] & 0xF8)|(buffer1[i,j][1] >> 5))
+            color_fill_byte[i*2+1] = (((buffer1[i,j][1] << 3) & 0xE0)|(buffer1[i,j][2] >> 3))
+            # print("before Write_Datas", j, i)
+        Write_Datas(color_fill_byte)
+
 def Write_text(dat):
     for i in range(0,8):
         if(dat & 0x01):
@@ -219,23 +231,6 @@ def Draw_Pixel(x, y):
     Set_Address(x, y)
     # transfer data
     Write_Datas(color_byte)
-
-
-def Display_Image(Image):
-    if(Image == None):
-        return
-    
-    Set_Coordinate(0,0)
-    buffer1 = Image.load()
-    # for j in range(0, SSD1351_WIDTH):
-    for j in range(0, 63):
-        # for i in range(0, SSD1351_HEIGHT):
-        for i in range(0, 31):
-        # for i in range(0, 253):
-            color_fill_byte[i*2] = ((buffer1[i,j][0] & 0xF8)|(buffer1[i,j][1] >> 5))
-            color_fill_byte[i*2+1] = (((buffer1[i,j][1] << 3) & 0xE0)|(buffer1[i,j][2] >> 3))
-            # print("before Write_Datas", j, i)
-        Write_Datas(color_fill_byte)
 
 #################################################
 
