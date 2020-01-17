@@ -126,14 +126,20 @@ def Test_Triangles():
         OLED.Display_Image(image)
 
 
-def Display_Picture(File_Name):
+# def Display_Picture(File_Name):
+def Display_Picture(file1, file2):
     # initial image
     image = Image.new("RGBA", (OLED.SSD1351_WIDTH, OLED.SSD1351_HEIGHT), "BLACK")
     draw = ImageDraw.Draw(image)
     draw.rectangle([(1,1), (OLED.SSD1351_WIDTH - 2,OLED.SSD1351_WIDTH - 2)], 'black', 'black')
-    # adding the picture
-    img = Image.open(File_Name)
-    image.alpha_composite(img, (0, 0))
+    # adding one picture to the composed image
+    img = Image.open(file2)
+    img = img.transpose(Image.FLIP_TOP_BOTTOM)
+    image.alpha_composite(img, (150, 0))
+    # adding one more picture to the composed image
+    img2 = Image.open(file1)
+    img2 = img2.transpose(Image.FLIP_TOP_BOTTOM)
+    image.alpha_composite(img2, (0, 0))
     OLED.Display_Image(image)
 
 #----------------------MAIN-------------------------#
@@ -144,6 +150,9 @@ try:
         #-------------OLED Init------------#
         OLED.Device_Init()
         OLED.Display_on()
+
+        # OLED.Write_Command(OLED.SSD1351_CMD_NORMALDISPLAY)
+        # OLED.Write_Command(0x01)
     
         while True:
             # OLED.Clear_Screen()
@@ -159,7 +168,7 @@ try:
             # Test_Text()
             # Test_HV_Lines()
             # Test_Pattern()
-            Display_Picture("aux1.png")
+            Display_Picture("aux1.png", "aux2.png")
             # OLED.Draw_FastVLine(20, 20, 100)
             # OLED.Draw_FastVLine(20, 20, 100)
             # OLED.Draw_Pixel(20, 20)
@@ -168,38 +177,7 @@ try:
 
             # OLED.Delay(500)
             # OLED.Display_off()
-            OLED.Delay(1000)
-
-        #-------------Draw Pictures------------#
-        # OLED.Delay(8000)
-        # print("hv lines")
-        # Test_HV_Lines()
-        # OLED.Delay(8000)
-        # print("pattern")
-        # Test_Pattern()
-        # OLED.Delay(2000)
-        # print("lines")
-        # Test_Lines()
-        # print("text")
-        # Test_Text()
-        # OLED.Delay(2000)
-        # print("rects")
-        # Test_Rects()
-        # OLED.Delay(1000)
-        # Test_FillRects() 
-        # OLED.Delay(2000)
-        # Test_Circles()
-        # OLED.Delay(2000)
-        # Test_Triangles()
-        # OLED.Delay(2000)
-
-        # while (True):
-        #     Display_Picture("picture1.jpg")
-        #     OLED.Delay(2000)
-        #     Display_Picture("picture2.jpg")
-        #     OLED.Delay(2000)
-        #     Display_Picture("picture3.jpg")
-        #     OLED.Delay(2000)
+            OLED.Delay(5000)
 
 
     if __name__ == '__main__':

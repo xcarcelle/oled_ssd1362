@@ -210,11 +210,11 @@ def Display_Image(Image):
         buffer1 = Image.load()
     except OSError as err:
         print(err)
-    for j in range(0, 63):
-        for i in range(0, 253):
-            color_fill_byte[i*2] = ((buffer1[i,j][0] & 0xF8)|(buffer1[i,j][1] >> 5))
-            color_fill_byte[i*2+1] = (((buffer1[i,j][1] << 3) & 0xE0)|(buffer1[i,j][2] >> 3))
-            # print("before Write_Datas", j, i)
+    for j in range(0, 31):
+        for i in range(0, 127):
+            # color_fill_byte[i*2] = ((buffer1[i,j][0] & 0xF8)|(buffer1[i,j][1] >> 5))
+            # color_fill_byte[i*2+1] = (((buffer1[i,j][1] << 3) & 0xE0)|(buffer1[i,j][2] >> 3))
+            color_fill_byte[i] = buffer1[2 * i, j + 8][0]
         Write_Datas(color_fill_byte)
 
 def Write_text(dat):
@@ -368,6 +368,7 @@ def Device_Init():
     # Set Display Mode
     # a4=normal a5=entire display a6=off a7=inverse display
     Write_Command(0xa4)	# Set display mode
+    Write_Command(0x01) # Flipping horizontally the display
     
     Write_Command(0xa8)	# set multiplex ratio
     Write_Command(0x3f)    # 
